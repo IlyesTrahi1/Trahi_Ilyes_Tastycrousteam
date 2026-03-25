@@ -15,20 +15,15 @@ from dataclasses import dataclass
 # Append the "src" folder to sys.path.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..", "src")))
 
-from agents.team1.agent1 import Agent1
-from agents.team2.agent2 import Agent2
-from agents.team3.agent3 import Agent3
-from agents.team4.agent4 import Agent4
-from agents.team5.agent5 import Agent5
-from agents.team6.agent6 import Agent6
+#suppression des autres agents qui sont inutiles dans notre cas
 from agents.team7.agent7 import Agent7
 from pystk2_gymnasium.envs import STKRaceMultiEnv, AgentSpec
 from pystk2_gymnasium.definitions import CameraMode
 
-MAX_TEAMS = 7
-MAX_STEPS = 1000
+MAX_TEAMS = 1 #on garde que notre agent sur la course en retirant les autres
+MAX_STEPS = 200 # pour que l'agent7 avance sur le circuit pendant exactement 200 pas de temps 
 NB_RACES = 1
-
+print("MAX_STEPS")
 # Get the current timestamp
 current_timestamp = datetime.now()
 
@@ -92,7 +87,7 @@ agents_specs = [
 def create_race():
     # Create the multi-agent environment for N karts.
     if NB_RACES==1:
-        env = STKRaceMultiEnv(agents=agents_specs, track="abyss", render_mode="human", num_kart=MAX_TEAMS)
+        env = STKRaceMultiEnv(agents=agents_specs, track="sandtrack", render_mode="human", num_kart=MAX_TEAMS)
     else:
         env = STKRaceMultiEnv(agents=agents_specs, render_mode="human", num_kart=MAX_TEAMS)
 
@@ -101,12 +96,7 @@ def create_race():
     agents = []
     names = []
 
-    agents.append(Agent1(env, path_lookahead=3))
-    agents.append(Agent2(env, path_lookahead=3))
-    agents.append(Agent3(env, path_lookahead=3))
-    agents.append(Agent4(env, path_lookahead=3))
-    agents.append(Agent5(env, path_lookahead=3))
-    agents.append(Agent6(env, path_lookahead=3))
+    #suppression des autres agents inutiles dans notre cas
     agents.append(Agent7(env, path_lookahead=3))
     np.random.shuffle(agents)
 
